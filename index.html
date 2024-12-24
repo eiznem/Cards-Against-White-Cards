@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cards Against Humanity</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin: 20px; }
+        .card { display: inline-block; border: 2px solid #000; padding: 20px; margin: 10px; cursor: pointer; }
+        .card.selected { border-color: red; }
+    </style>
+</head>
+<body>
+    <h1>Cards Against Humanity Game</h1>
+    <div id="lobby">
+        <input type="text" id="playerName" placeholder="Enter your name">
+        <button onclick="joinLobby()">Join Lobby</button>
+        <p id="players"></p>
+        <button id="startButton" style="display:none;" onclick="startGame()">Start Game</button>
+    </div>
+    <div id="game" style="display:none;">
+        <h2>Round 1</h2>
+        <p id="timer"></p>
+        <div id="cards"></div>
+        <button onclick="submitVote()">Submit Vote</button>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
