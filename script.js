@@ -1,7 +1,13 @@
 let lobby = [];
 let round = 1;
 let selectedCard = null;
-let cards = ["Card 1", "Card 2", "Card 3", "Card 4"]; // Replace with a JSON-based card library for more options
+let cards = [];
+
+fetch("cards.json")
+    .then((response) => response.json())
+    .then((data) => {
+        cards = data;
+    });
 
 function joinLobby() {
     const playerName = document.getElementById("playerName").value;
