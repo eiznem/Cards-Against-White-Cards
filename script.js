@@ -1,8 +1,9 @@
-let lobby = [];
-let round = 1;
+let lobby = JSON.parse(localStorage.getItem("lobby")) || [];
+let round = JSON.parse(localStorage.getItem("round")) || 1;
 let selectedCard = null;
 let cards = [];
 
+// Fetch cards from JSON
 fetch("cards.json")
     .then((response) => response.json())
     .then((data) => {
@@ -13,6 +14,7 @@ function joinLobby() {
     const playerName = document.getElementById("playerName").value;
     if (playerName) {
         lobby.push(playerName);
+        localStorage.setItem("lobby", JSON.stringify(lobby));
         document.getElementById("players").innerText = "Players: " + lobby.join(", ");
         document.getElementById("startButton").style.display = lobby.length >= 2 ? "inline-block" : "none";
     }
@@ -28,7 +30,14 @@ function startGame() {
 function showCards() {
     const cardContainer = document.getElementById("cards");
     cardContainer.innerHTML = ""; // Clear previous cards
-    cards.forEach((card, index) => {
+    const randomCards = [];
+    while (randomCards.length < 4) {
+        const randomIndex = Math.floor(Math.random() * cards.length);
+        if (!randomCards.includes(cards[randomIndex])) {
+            randomCards.push(cards[randomIndex]);
+        }
+    }
+    randomCards.forEach((card, index) => {
         const cardElement = document.createElement("div");
         cardElement.className = "card";
         cardElement.innerText = card;
@@ -57,6 +66,7 @@ function submitVote() {
 function nextRound() {
     if (round < 10) {
         round++;
+        localStorage.setItem("round", round);
         document.querySelector("h2").innerText = `Round ${round}`;
         showCards();
         startTimer(60);
@@ -79,3 +89,7 @@ function startTimer(seconds) {
         }
     }, 1000);
 }
+
+// Initialize lobby state on page load
+document.getElementById("players").innerText = "Players: " + lobby.join(", ");
+document.getElementById("startButton").style.display = lobby.length >= 2 ? "inline-block" : "none";
