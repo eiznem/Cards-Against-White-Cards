@@ -90,6 +90,21 @@ function startTimer(seconds) {
     }, 1000);
 }
 
+// Check for updates to lobby or round in localStorage
+setInterval(() => {
+    const updatedLobby = JSON.parse(localStorage.getItem("lobby")) || [];
+    if (updatedLobby.length !== lobby.length) {
+        lobby = updatedLobby;
+        document.getElementById("players").innerText = "Players: " + lobby.join(", ");
+    }
+
+    const updatedRound = JSON.parse(localStorage.getItem("round"));
+    if (updatedRound && updatedRound !== round) {
+        round = updatedRound;
+        document.querySelector("h2").innerText = `Round ${round}`;
+    }
+}, 1000);
+
 // Initialize lobby state on page load
 document.getElementById("players").innerText = "Players: " + lobby.join(", ");
 document.getElementById("startButton").style.display = lobby.length >= 2 ? "inline-block" : "none";
